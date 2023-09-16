@@ -1,0 +1,37 @@
+# @name get-prompts
+GET http://localhost:3333/prompts
+
+###
+
+# @name upload
+POST http://localhost:3333/videos
+Content-Type: multipart/form-data; boundary=----Videos
+
+------Videos
+Content-Disposition: form-data; name="file"; filename="audio.mp3"
+Content-Type: audio/mpeg
+
+< ./audio.mp3
+------Videos--
+
+###
+
+# @name create-transcription
+POST http://localhost:3333/videos/362befcf-2a56-495b-b981-846e3b051e51/transcription
+Content-Type: application/json
+
+{
+    "prompt": "Cidade Vizinha, Henrique e Juliano"
+}
+
+###
+
+# @name gemerate-ai-completion
+POST http://localhost:3333/ai/complete
+Content-Type: application/json
+
+{
+    "videoId": "362befcf-2a56-495b-b981-846e3b051e51",
+    "template":"Gere um resumo sucinto da transcrição do vídeo informado a seguir: '''{transcription}'''",
+    "temperatura": 0.5
+}
