@@ -34,15 +34,9 @@ export function VideoInputForm({ onVideoUploaded }: VideoInputFormProps) {
   }
 
   async function convertVideoToAudio(video: File) {
-    console.log("Convert started.");
-
     const ffmpeg = await getFFmpeg();
 
     await ffmpeg.writeFile("input.mp4", await fetchFile(video));
-
-    ffmpeg.on("log", (log) => {
-      console.log(log);
-    });
 
     ffmpeg.on("progress", (progress) => {
       console.log("Convert progress: " + Math.round(progress.progress * 100));
@@ -142,7 +136,7 @@ export function VideoInputForm({ onVideoUploaded }: VideoInputFormProps) {
           ref={promptInputRef}
           id="transcription_prompt"
           disabled={status !== "waiting"}
-          className="h-20 leading-relaxed resize-none"
+          className="h-15 leading-relaxed resize-none"
           placeholder="Inclua palavras-chave mencionadas no vídeo separadas por vírgula (,)"
         />
       </div>
@@ -151,7 +145,7 @@ export function VideoInputForm({ onVideoUploaded }: VideoInputFormProps) {
         type="submit"
         disabled={status !== "waiting"}
         data-success={status === "success"}
-        className=" w-full bg-white data-[data-success=true]:bg-emerald-400"
+        className=" w-full bg-white data-[success=true]:bg-emerald-400"
       >
         {status === "waiting" ? (
           <>
